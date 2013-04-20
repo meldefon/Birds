@@ -28,4 +28,4 @@ the current score, and the current level. The choice to start a game or wait wil
 a button drawn in the main game window, a QGraphicsScene.
 
 It will look something like this:
-![alt text](interface.jpeg "Layout")
+![alt text](/home/cs102/game_meldefon/interface.jpeg "Layout")
