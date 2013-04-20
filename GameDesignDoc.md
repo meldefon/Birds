@@ -1,89 +1,31 @@
-# Game Design Document
-This is a place holder for your game design document. You are advised to write your document in [Markdown](http://daringfireball.net/projects/markdown/) and the following section will show you how to write a document using Markdown markup.
+#Game Design
 
-Alternativley, you can write your document in plain text if you wish.
+##"Things"
+###The Game will include several different bird characters:
+1. Dead Birds, which will not move at all, but will be placed randomly throughout the scene
+2. Horizontal Birds, which will fly in strait horizontal lines
+3. Vertical Birds, which will be the same as horizontal birds, but will fly vertically
+4. (Possibly) Zig-zag Birds, which will fly in deterministic, but strait, paths
+5. Loopy Birds, which will fly in deterministic, but curved, paths
+6. Random Birds which will fly in (maybe smooth) random paths
 
-----
+##How to control the Game
+Simply use the mouse to move the cursor. Try to click on birds as they move around the screen.
 
-## Markdown
-Markdown is a human-readable structured plain text format that is used to convert text into HTML. GitHub automatically renders Markdown into HTML.
+##Score
+Score will go up as more birds are "caught". Birds will have value according to how dificult they are to catch.
+In order to survive a level, the player will need to catch enough birds in a given amount of time to meet a minimum score.
+Each level will have progressively higher standards, making it more and more difficult to keep up. Either the timer wil be shortened or there will be a higher minimum score.
 
-This is a crash course on how to use Markdown. The following section will show you the plain text used to generate the document shown in the rendering section.
+##Lives
+In order to survive a level, the player must acheive a certain score each level.
+At first, this will be very easy. Later on, though, it will become much more difficult.
+The player will die after the first level that he cannot complete.
 
-### Code
+##Interface
+The interface will have a very simple, clean layout, with text boxes to notify the user of the time left int eh level,
+the current score, and the current level. The choice to start a game or wait will be made by pressing
+a button drawn in the main game window, a QGraphicsScene.
 
-```
-# Header 1
-## Header 2
-### Header 3
-#### Header 4
-##### Header 5
-
-You can also write in **bold** or _italics_. You can also ~~strike through~~ or write inline `Code Segments`
-
->Blockquotes are done as such.
-
-Just make sure to separate paragraphs with an emptyline. 
-Otherwise, they are considered in the same paragraph.
-
-You link to [Google](https://www.google.com) as such and lists are written has follows:
-  1. First you indent with two empty spaces.
-  1. Then, you use:
-    * `1.` to signal an ordered (i.e. numbered) list, or
-    * `*`, `-`, `+` to represent an unordered list.
-      1. Make sure to maintain indentation
-      1. As it is used to identify sub-lists
-  1. Numbering and symboles don't matter as they are auto-generated later.
-
-Tables are pretty easy to make:
-
-| Tables        | Are           | Easy          |
-| ------------- |:-------------:| -------------:|
-| left-aligned  | centered      | right-aligned |
-| header are    | bolded and    | centered      |
-| zebra stripes | are neat      | 1             |
-
-
-Images are added inline by using the following syntax
-![alt text](http://octodex.github.com/images/Professortocat_v2.png "Image Title")
-```
-
-----
-
-### Rendering
-This section shows the rendering of the plain text above.
-
-# Header 1
-## Header 2
-### Header 3
-#### Header 4
-##### Header 5
-
-You can also write in **bold** or _italics_. You can also ~~strike through~~ or write inline `Code Segments`
-
->Blockquotes are done as such.
-
-Just make sure to separate paragraphs with an emptyline. 
-Otherwise, they are considered in the same paragraph.
-
-You link to [Google](https://www.google.com) as such and lists are written has follows:
-  1. First you indent with two empty spaces.
-  1. Then, you use:
-    * `1.` to signal an ordered (i.e. numbered) list, or
-    * `*`, `-`, `+` to represent an unordered list.
-      1. Make sure to maintain indentation
-      1. As it is used to identify sub-lists
-  1. Numbering and symboles don't matter as they are auto-generated later.
-
-Tables are pretty easy to make:
-
-| Tables        | Are           | Easy          |
-| ------------- |:-------------:| -------------:|
-| left-aligned  | centered      | right-aligned |
-| header are    | bolded and    | centered      |
-| zebra stripes | are neat      | 1             |
-
-
-Images are added inline by using the following syntax
-![alt text](http://octodex.github.com/images/Professortocat_v2.png "Image Title")
-
+It will look something like this:
+![alt text](interface.jpeg "Layout")
