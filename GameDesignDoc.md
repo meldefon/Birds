@@ -28,5 +28,5 @@ the current score, and the current level. The choice to start a game or wait wil
 a button drawn in the main game window, a QGraphicsScene.
 
 It will look something like this:
-![alt text](https://github.com/usc-csci102-spring2013/game_meldefon/blob/master/interface.jpeg "Layout")
+![alt text](https://github.com/usc-csci102-spring2013/game_meldefon/blob/master/interface.jpeg?raw=true "Layout")
 
