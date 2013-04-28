@@ -35,7 +35,7 @@ class DBird: public Bird{
 
 class HBird: public Bird{
   public:
-    HBird(QPixmap* pic, MainWindow* big;
+    HBird(QPixmap* pic, MainWindow* big);
     void move();
 };
 

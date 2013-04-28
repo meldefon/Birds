@@ -9,6 +9,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include "bird.h"
+#include "difficulty_button.h"
 
 
 
@@ -40,6 +41,10 @@ class MainWindow : public QWidget{
     QLineEdit* total_score_bar;
     QLabel* total_score_label;
     QLineEdit* error_bar;
+    QTimer* begin_timer;
+    DifficultyButton* easy_button;
+    DifficultyButton* med_button;
+    DifficultyButton* hard_button;
     
     int score_val;
     int time_hint;
@@ -52,6 +57,11 @@ class MainWindow : public QWidget{
     void show_level_screen();
     bool allow_cheat;
     bool game_over;
+    bool power_up_used;
+    Bird* chosen_one;
+    void show_front();
+    bool start_enable;
+    bool using_cheat;
     
     void addBird();
 
@@ -66,6 +76,7 @@ class MainWindow : public QWidget{
     void handle_timer();
     void end_level();
     void end_game();
+    void check_begin();
     
   
 };

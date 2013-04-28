@@ -21,7 +21,7 @@ void MainWindow::show_level_screen(){
     return;
   }
   if(current_level==1){
-    QGraphicsTextItem* level_2 = new QGraphicsTextItem("Level 2\n\nGive up now, or you'll egret it. Now there will be\nvertically moving birds. These will be worth\n 30 points, rather than DeadBird's 5. Good Luck.\n\n The newest bird will look like this");
+    QGraphicsTextItem* level_2 = new QGraphicsTextItem("Level 2\n\nGive up now, or you'll egret it. Now there will be\nvertically moving birds. These will be worth\n30 points, rather than DeadBird's 5. Good Luck.\n\n The newest bird will look like this");
     scene->addItem(level_2);
     level_2->setPos(100,150);
     QGraphicsPixmapItem* example = new QGraphicsPixmapItem;
@@ -69,7 +69,12 @@ void MainWindow::show_level_screen(){
     //scene->addItem(example);
     //example->setPos(245,330);
     return;
-  }   
+  }
+  if(current_level==6){
+    QGraphicsTextItem* level_7 = new QGraphicsTextItem("You  Win\n\nDon't think you're a big deal. So you won.\n\nWho gives a flock?");
+    scene->addItem(level_7);
+    level_7->setPos(100,150);
+  }
 }
 
 QPixmap* get_back(int current_level,QPixmap* temp){
@@ -170,6 +175,10 @@ int get_score(int type){
 }
 
 void MainWindow::start_level(){
+  if(!start_enable){
+    error_bar->setText("Please select a difficulty first.");
+    return;
+  }
   if(game_over){
     end_game();
     return;
@@ -181,6 +190,7 @@ void MainWindow::start_level(){
     }
     name_bar->setReadOnly(true);
   }
+  
   QString name_entry = name_bar->text();
   std::string n = name_entry.toUtf8().constData();
   std::stringstream con;
@@ -194,11 +204,15 @@ void MainWindow::start_level(){
 
     current_level = level_choice-2;
     //allow_cheat = false;
+    using_cheat = true;
     end_level();
     return;
   }
   error_bar->clear();
   timer->stop();
+  if(current_level==5){
+    timer->setInterval(7.5*((double)timer->interval())/10.);
+  }
   scene->clear();
   bird_list = new QList<Bird*>;
   score_val = 0;
@@ -226,7 +240,7 @@ void MainWindow::start_level(){
 void MainWindow::end_level(){
   scene->clear();
   timer->stop();
-  if(score_val<level_recs[current_level] && !allow_cheat){
+  if(score_val<level_recs[current_level] /*&& !allow_cheat*/&& !using_cheat){
     QGraphicsPixmapItem* game_over_message = new QGraphicsPixmapItem;
     QGraphicsPixmapItem* crying = new QGraphicsPixmapItem;
     QGraphicsTextItem* knew = new QGraphicsTextItem("Called it.");
@@ -263,7 +277,11 @@ void MainWindow::end_level(){
   show_level_screen();
   allow_cheat = false;
   power_up_used = false;
+  using_cheat = false;
   chosen_one = NULL;
+  if(current_level==6){
+    game_over = true;
+  }
 }
 
 void MainWindow::handle_timer(){
@@ -343,9 +361,65 @@ void MainWindow::end_game(){
   name_bar->setReadOnly(false);
   total_score = 0;
   total_score_bar->setText("");
-  show_level_screen();
+  //show_level_screen();
+  error_bar->clear();
+  show_front();
   allow_cheat = true;
   game_over = false;
+  begin_timer->start();
+  start_enable = false;
+}
+
+void MainWindow::show_front(){
+  std::string easy("Easy");
+  std::string med("Medium");
+  std::string hard("Hard");
+  easy_button = new DifficultyButton(easy);
+  //easy_button->setText("Easy");
+  med_button = new DifficultyButton(med);
+  //med_button->setText("Medium");
+  hard_button= new DifficultyButton(hard);
+  //hard_button->setText("Hard");
+  
+  scene->addItem(easy_button);
+  scene->addItem(med_button);
+  scene->addItem(hard_button);
+  scene->addItem(easy_button->text_);
+  scene->addItem(med_button->text_);
+  scene->addItem(hard_button->text_);
+  easy_button->text_->setPos(225,150);
+  easy_button->setRect(197,143,100,40);
+  med_button->text_->setPos(215,250);
+  med_button->setRect(197,243,100,40);
+  hard_button->text_->setPos(227,350);
+  hard_button->setRect(197,343,100,40);
+}
+
+void MainWindow::check_begin(){
+  if(easy_button->chosen){
+    timer->setInterval(40/*23*/);
+    start_enable = true;
+    scene->clear();
+    show_level_screen();
+    begin_timer->stop();
+    return;
+  }
+  if(med_button->chosen){
+    timer->setInterval(15);
+    start_enable = true;
+    scene->clear();
+    show_level_screen();
+    begin_timer->stop();
+    return;
+  }
+  if(hard_button->chosen){
+    timer->setInterval(7);
+    start_enable = true;
+    scene->clear();
+    show_level_screen();
+    begin_timer->stop();
+    return;
+  }
 }
 
 
@@ -372,6 +446,8 @@ MainWindow::MainWindow(){
   allow_cheat = true;
   game_over = false;
   power_up_used = false;
+  start_enable = false;
+  using_cheat = false;
   
 
   //Initialize bird list
@@ -474,7 +550,13 @@ MainWindow::MainWindow(){
   timer->setInterval(10);
   connect(timer,SIGNAL(timeout()),this,SLOT(handle_timer()));
   
-  show_level_screen();
+  //show_level_screen();
+  begin_timer = new QTimer(this);
+  timer->setInterval(10);
+  connect(begin_timer,SIGNAL(timeout()),this,SLOT(check_begin()));
+  begin_timer->start();
+  
+  show_front();
   
     
 }
