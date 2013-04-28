@@ -14,14 +14,18 @@
 The grader should use the following procedure to compile and run the code:
 ```shell
 #Compile Instructions
-echo "qmake -project"
-echo "qmake"
-echo "make"
+$ qmake -project
+$ qmake
+$ make
 #Doxygen Instructions
-echo "Write command here"
+$ doxygen -g config.txt
+$ doxygen config.txt
 #Command to run
-echo "Write command here"
+./INSERT-PARENT-FOLDER-NAME
 ```
 
 ### Screenshots -- [Optional]
-You can either remove this section or add screenshots if you wish.
+![alt text](https://github.com/usc-csci102-spring2013/game_meldefon/blob/master/interface_shot.png?raw=true "Layout")
+
+![alt text](https://github.com/usc-csci102-spring2013/game_meldefon/blob/master/game_shot.png?raw=true "Layout")
+
