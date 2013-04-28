@@ -7,6 +7,7 @@
 #include <sstream>
 #include <iostream>
 #include <QColor>
+#include <QBrush>
 //#include "bird.h"
 
 void MainWindow::show_level_screen(){
@@ -387,17 +388,23 @@ void MainWindow::show_front(){
   scene->addItem(easy_button->text_);
   scene->addItem(med_button->text_);
   scene->addItem(hard_button->text_);
+  QBrush easy_brush(Qt::green);
+  QBrush med_brush(Qt::yellow);
+  QBrush hard_brush(Qt::red);
   easy_button->text_->setPos(225,150);
   easy_button->setRect(197,143,100,40);
+  easy_button->setBrush(easy_brush);
   med_button->text_->setPos(215,250);
   med_button->setRect(197,243,100,40);
+  med_button->setBrush(med_brush);
   hard_button->text_->setPos(227,350);
   hard_button->setRect(197,343,100,40);
+  hard_button->setBrush(hard_brush);
 }
 
 void MainWindow::check_begin(){
   if(easy_button->chosen){
-    timer->setInterval(40/*23*/);
+    timer->setInterval(20);
     start_enable = true;
     scene->clear();
     show_level_screen();
@@ -438,8 +445,8 @@ MainWindow::MainWindow(){
   level_recs[4] =800;
   level_recs[5] =1200;
   level_times[0] = 30;
-  level_times[1] = 45;
-  level_times[2] = 40;
+  level_times[1] = 35;
+  level_times[2] = 35;
   level_times[3] = 30;
   level_times[4] = 25;
   level_times[5] = 20;
