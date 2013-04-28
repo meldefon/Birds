@@ -21,7 +21,7 @@ void MainWindow::show_level_screen(){
     return;
   }
   if(current_level==1){
-    QGraphicsTextItem* level_2 = new QGraphicsTextItem("Level 2\n\nGive up now, or you'll egret it. Now there will be\nvertically moving birds. These will be worth\n 30 points, rather than DeadBird's 5. Good Luck.\n\n The newest birds will look like this");
+    QGraphicsTextItem* level_2 = new QGraphicsTextItem("Level 2\n\nGive up now, or you'll egret it. Now there will be\nvertically moving birds. These will be worth\n 30 points, rather than DeadBird's 5. Good Luck.\n\n The newest bird will look like this");
     scene->addItem(level_2);
     level_2->setPos(100,150);
     QGraphicsPixmapItem* example = new QGraphicsPixmapItem;
@@ -31,7 +31,7 @@ void MainWindow::show_level_screen(){
     return;
   }
   if(current_level==2){
-    QGraphicsTextItem* level_3 = new QGraphicsTextItem("Level 3\n\nYou're Aight. But let's see what you can really do\nNow there will be another bird, worth 45 points.\n\nFrom now on, owl help you out (because you're going\nto need it). the first bird you right click will become\nyour pet, catching all birds it collides with. Go now.\n\n The newest birds will look like this");
+    QGraphicsTextItem* level_3 = new QGraphicsTextItem("Level 3\n\nYou're Aight. But let's see what you can really do\nNow there will be another bird, worth 45 points.\n\nFrom now on, owl help you out (because you're going\nto need it). The first bird you right click will become\nyour pet, catching all birds it collides with. Go now.\n\n The newest bird will look like this");
     scene->addItem(level_3);
     level_3->setPos(100,150);
     QGraphicsPixmapItem* example = new QGraphicsPixmapItem;
@@ -96,11 +96,11 @@ QPixmap* get_back(int current_level,QPixmap* temp){
       return temp;
       break;
     case 4:
-      b= new QPixmap("arctic.png");
+      b= new QPixmap("forest.png");
       *temp = b->scaled(500,500);
       return temp;
      default:
-      b= new QPixmap("forest.png");
+      b= new QPixmap("arctic.png");
       *temp = b->scaled(500,500);
       return temp;
       break;       
@@ -147,7 +147,6 @@ void MainWindow::addBird(){
       bird_list->push_back(next_bird);
       scene->addItem(next_bird);
       break;
-        //std::cout<<"FUCK YOU";
     }
 }
 
@@ -171,12 +170,30 @@ int get_score(int type){
 }
 
 void MainWindow::start_level(){
+  if(game_over){
+    end_game();
+    return;
+  }
   if(current_level==0){
     if(name_bar->text()==QString("")){
       error_bar->setText("Please enter your name before starting");
       return;
     }
     name_bar->setReadOnly(true);
+  }
+  QString name_entry = name_bar->text();
+  std::string n = name_entry.toUtf8().constData();
+  std::stringstream con;
+  con<<n;
+  std::string first_word;
+  con>>first_word;
+  if(allow_cheat && first_word.compare("Cheat")==0){
+    int level_choice;
+    con>>level_choice;
+    current_level = level_choice-2;
+    //allow_cheat = false;
+    end_level();
+    return;
   }
   error_bar->clear();
   timer->stop();
@@ -207,7 +224,7 @@ void MainWindow::start_level(){
 void MainWindow::end_level(){
   scene->clear();
   timer->stop();
-  if(score_val<level_recs[current_level]){
+  if(score_val<level_recs[current_level] && !allow_cheat){
     QGraphicsPixmapItem* game_over_message = new QGraphicsPixmapItem;
     QGraphicsPixmapItem* crying = new QGraphicsPixmapItem;
     QGraphicsTextItem* knew = new QGraphicsTextItem("Called it.");
@@ -231,6 +248,7 @@ void MainWindow::end_level(){
     game_over_message->setPos(60,0);
     current_level = 0;
     total_score = 0;
+    game_over = true;
     return;
   }
   total_score+=score_val;
@@ -241,6 +259,7 @@ void MainWindow::end_level(){
   total_score_bar->setText(QString(score_text.c_str()));
   ++current_level;
   show_level_screen();
+  allow_cheat = false;
 }
 
 void MainWindow::handle_timer(){
@@ -308,7 +327,8 @@ void MainWindow::end_game(){
   total_score = 0;
   total_score_bar->setText("");
   show_level_screen();
-  
+  allow_cheat = true;
+  game_over = false;
 }
 
 
@@ -332,6 +352,8 @@ MainWindow::MainWindow(){
   level_times[3] = 30;
   level_times[4] = 25;
   level_times[5] = 20;
+  allow_cheat = true;
+  game_over = false;
   
 
   //Initialize bird list
