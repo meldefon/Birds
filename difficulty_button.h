@@ -5,11 +5,14 @@
 #include <QString>
 #include <string>
 
+/**Will implement the difficulty button at the front screen*/
 class DifficultyButton: public QGraphicsRectItem{
   public:
     DifficultyButton(std::string text_string);
     void mousePressEvent ( QGraphicsSceneMouseEvent* event );
+    /**Signals whether button has been pressed. Flipped on during click event.*/
     bool chosen;
+    /**Text on the button*/
     QGraphicsTextItem* text_;
 };
 

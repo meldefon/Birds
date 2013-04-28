@@ -10,6 +10,10 @@
 #include <QBrush>
 //#include "bird.h"
 
+/**Pauses game if game is in session
+ @param none
+ @return non
+ */
 void MainWindow::pause_game(){
   if(!level_over){
     if(timer->isActive()){
@@ -23,6 +27,7 @@ void MainWindow::pause_game(){
   }
 }
 
+/**Shows the level infor for each level. Gives user a picture of the birds*/
 void MainWindow::show_level_screen(){
   if(current_level==0){
     QGraphicsTextItem* level_1 = new QGraphicsTextItem("Level 1\n\nProbably the easiest level I feather seen. \nJust click on the birds to catch them. In this case,\nthey're dead birds, so they won't move. \n\nMake sure to catch enough to meet the minimum\nlevel score before the timer runs out! \n\nThe birds will look like this");
@@ -91,6 +96,11 @@ void MainWindow::show_level_screen(){
   }
 }
 
+/**Gives the background picture for each level
+
+@param current_level what level is currently in play
+@param temp the picture to be put in the background
+*/
 QPixmap* get_back(int current_level,QPixmap* temp){
   switch(current_level){
     QPixmap* b;
@@ -127,7 +137,7 @@ QPixmap* get_back(int current_level,QPixmap* temp){
     return NULL;
 }
     
-
+/**Gives a QString from an integer and displays it out of the level requirement*/
 QString score_text(int score, int level_rec){
   std::stringstream c;
   std::string text;
@@ -136,6 +146,7 @@ QString score_text(int score, int level_rec){
   return QString(text.c_str());
 }  
 
+/**Adds birds periodically*/
 void MainWindow::addBird(){
   int next_bird_type = rand()%(current_level+1);
   Bird* next_bird;
@@ -169,6 +180,9 @@ void MainWindow::addBird(){
     }
 }
 
+/**Gets the point value of each bird
+@param type the type of bird
+*/
 int get_score(int type){
   if(type ==0){
     return 5;
@@ -188,6 +202,7 @@ int get_score(int type){
   return 0;   
 }
 
+/**Starts level when start button is pushed*/
 void MainWindow::start_level(){
   if(!start_enable){
     error_bar->setText("Please select a difficulty first.");
@@ -253,7 +268,8 @@ void MainWindow::start_level(){
   background->setPos(0,0);
 }
   
-
+/**Ends level when condition is met in the handle_timer() function
+*/
 void MainWindow::end_level(){
   level_over = true;
   scene->clear();
@@ -303,6 +319,7 @@ void MainWindow::end_level(){
   }
 }
 
+/**Moves all objects after the timer timeout() signal*/
 void MainWindow::handle_timer(){
   //delete scene;
   QList<Bird* >* copy = new QList<Bird*>;
@@ -368,6 +385,7 @@ void MainWindow::handle_timer(){
   //view->show();
 }
 
+/**Ends the whole game when the correct score is not met, or when the reset button is pressed*/
 void MainWindow::end_game(){
   current_level = 0;
   scene->clear();
@@ -390,6 +408,7 @@ void MainWindow::end_game(){
   level_over = true;
 }
 
+/**Shows difficulty select screen*/
 void MainWindow::show_front(){
   std::string easy("Easy");
   std::string med("Medium");
@@ -421,6 +440,7 @@ void MainWindow::show_front(){
   hard_button->setBrush(hard_brush);
 }
 
+/**Checks if any difficulty has been selected*/
 void MainWindow::check_begin(){
   if(easy_button->chosen){
     timer->setInterval(20);
@@ -449,7 +469,7 @@ void MainWindow::check_begin(){
 }
 
 
-
+/**Main constructor for the mainwindow class*/
 MainWindow::MainWindow(){
 
   //Initialize total score;
@@ -523,8 +543,6 @@ MainWindow::MainWindow(){
  
   
   //Status Panel Stuff
-  status_bar = new QLineEdit;
-  //status_bar->setReadOnly(true);
   start_button = new QPushButton("Start");
   reset_button = new QPushButton("Reset");
   pause_button = new QPushButton("Pause");
@@ -596,6 +614,7 @@ MainWindow::MainWindow(){
 MainWindow::~MainWindow(){
 }
 
+/**Just shows the MainWindow's main widget*/
 void MainWindow::show(){
   main->show();
   //start_level();

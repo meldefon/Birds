@@ -8,6 +8,7 @@
 
 class MainWindow;
 
+/**Bird abstract class. Inherited classes implement move function*/
 class Bird : public QGraphicsPixmapItem{
   public:
     //Bird(QPixmap* pic, MainWindow* big);
@@ -15,15 +16,23 @@ class Bird : public QGraphicsPixmapItem{
     QPixmap* pic_;
     int type;
     //int id_;
+    /**x position*/
     float x;
+    /**y position*/
     float y;
+    /**x velocity*/
     float vx;
+    /**y velocity*/
     float vy;
+    /**Pointer to its parent mainwindow*/
     MainWindow* big_;
+    /**Reimplements mouse click event*/
     void mousePressEvent ( QGraphicsSceneMouseEvent* event );
-    //void mouseDoubleClickEvent( QGraphicsSceneMouseEvent* event );
+    /**Signals whether bird has been caught*/
     bool show;
+    /**Signals whether bird has been right clicked*/
     bool chosen;
+    /**Signals whether clicking should have any effect*/
     bool* active_;
 };
 
