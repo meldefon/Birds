@@ -61,7 +61,7 @@ void MainWindow::show_level_screen(){
     return;
   }   
   if(current_level==5){
-    QGraphicsTextItem* level_6 = new QGraphicsTextItem("Level 5\n\nYou've exhausted my supply of birds.\n\nBut we can still find a way to make things more\nchallenging. Clock's running much faster this time.\n\nIt's Ostrich of the imagination to think how\nyou're gonna survive this one.");
+    QGraphicsTextItem* level_6 = new QGraphicsTextItem("Level 6\n\nYou've exhausted my supply of birds.\n\nBut we can still find a way to make things more\nchallenging. Clock's running much faster this time.\n\nIt's Ostrich of the imagination to think how\nyou're gonna survive this one.");
     scene->addItem(level_6);
     level_6->setPos(100,150);
     //QGraphicsPixmapItem* example = new QGraphicsPixmapItem;
@@ -123,27 +123,27 @@ void MainWindow::addBird(){
   //std::cout<<"HERE";
   switch(next_bird_type){
     case 0:
-      next_bird = new DBird(DBird_pic,this,1);
+      next_bird = new DBird(DBird_pic,this);
       bird_list->push_back(next_bird);
       scene->addItem(next_bird);
     break;
     case 1:
-      next_bird = new VBird(VBird_pic,this,1);
+      next_bird = new VBird(VBird_pic,this);
       bird_list->push_back(next_bird);
       scene->addItem(next_bird);
       break;
     case 2:
-      next_bird = new HBird(HBird_pic,this,1);
+      next_bird = new HBird(HBird_pic,this);
       bird_list->push_back(next_bird);
       scene->addItem(next_bird);
       break;
     case 3:
-      next_bird = new ZigBird(ZigBird_pic,this,1);
+      next_bird = new ZigBird(ZigBird_pic,this);
       bird_list->push_back(next_bird);
       scene->addItem(next_bird);
       break;
     case 4:
-      next_bird = new RandBird(RandBird_pic,this,1);
+      next_bird = new RandBird(RandBird_pic,this);
       bird_list->push_back(next_bird);
       scene->addItem(next_bird);
       break;
@@ -187,9 +187,11 @@ void MainWindow::start_level(){
   con<<n;
   std::string first_word;
   con>>first_word;
-  if(allow_cheat && first_word.compare("Cheat")==0){
-    int level_choice;
-    con>>level_choice;
+  int level_choice = -1;
+  con>>level_choice;
+  bool level_good = (level_choice>=1 && level_choice<=6);
+  if(allow_cheat && first_word.compare("Cheat")==0 && level_good){
+
     current_level = level_choice-2;
     //allow_cheat = false;
     end_level();
@@ -260,6 +262,8 @@ void MainWindow::end_level(){
   ++current_level;
   show_level_screen();
   allow_cheat = false;
+  power_up_used = false;
+  chosen_one = NULL;
 }
 
 void MainWindow::handle_timer(){
@@ -270,7 +274,7 @@ void MainWindow::handle_timer(){
     addBird();
   }
   //std::cout<<level_times[current_level];
-  if(tenth_seconds>=level_times[current_level]/*30/*75*/){
+  if(tenth_seconds>=level_times[current_level]/*3075*/){
     tenth_seconds = 0;
     --time_hint;
     std::stringstream c;
@@ -290,8 +294,21 @@ void MainWindow::handle_timer(){
     return;
   }
   
+  for(int i = 0;power_up_used && i<bird_list->size();++i){
+    if(chosen_one->collidesWithItem(bird_list->at(i))){
+      bird_list->at(i)->show = false;
+      //std::cout<<"COLLIDED";
+    }
+  }
+  
   for(int i = 0;i<bird_list->size();++i){
-    if(bird_list->at(i)->show){
+    if(current_level>=2 && bird_list->at(i)->chosen && !power_up_used){
+      chosen_one = bird_list->at(i);
+      //std::cout<<"CHOSEN";
+      chosen_one->setPixmap(QPixmap("eagle.png"));
+      power_up_used = true;
+    }
+    if(bird_list->at(i)->show || bird_list->at(i)==chosen_one){
       copy->push_back(bird_list->at(i));
     }
     else{
@@ -339,7 +356,7 @@ MainWindow::MainWindow(){
   total_score = 0;
 
   //Initialize level stuff
-  current_level = 5;
+  current_level = 0;
   level_recs[0] =125;
   level_recs[1] =225;
   level_recs[2] =350;
@@ -354,6 +371,7 @@ MainWindow::MainWindow(){
   level_times[5] = 20;
   allow_cheat = true;
   game_over = false;
+  power_up_used = false;
   
 
   //Initialize bird list
@@ -439,24 +457,6 @@ MainWindow::MainWindow(){
   VBird_pic = new QPixmap("VBird.png");
   ZigBird_pic = new QPixmap("ZigBird.png");
   RandBird_pic = new QPixmap("RandBird.png");
-  
-  /*DBird* bird_1 = new DBird(pic1,this,0);
-  HBird* bird_2 = new HBird(pic2,this,1);
-  VBird* bird_3 = new VBird(pic3,this,2);
-  ZigBird* bird_4 = new ZigBird(pic4,this,3);
-  RandBird* bird_5 = new RandBird(pic5,this,4);
-  bird_list->push_back(bird_1);
-  bird_list->push_back(bird_2);
-  bird_list->push_back(bird_3);
-  bird_list->push_back(bird_4);
-  bird_list->push_back(bird_5);
-  
-  //QPixmap* p = &pic1;
-  scene->addItem(bird_1);
-  scene->addItem(bird_2);
-  scene->addItem(bird_3);
-  scene->addItem(bird_4);
-  scene->addItem(bird_5);*/
   
   
   //Set whole widget layout   
