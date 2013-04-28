@@ -2,7 +2,7 @@
 #include <iostream>
 #include <QGraphicsSceneMouseEvent>
 
-DBird::DBird(QPixmap* pic, MainWindow* big){
+DBird::DBird(QPixmap* pic, MainWindow* big,bool* active){
   pic_ = pic;
   big_ = big;
   setPixmap(*pic);
@@ -15,14 +15,17 @@ DBird::DBird(QPixmap* pic, MainWindow* big){
   type = 0;
   show = true;
   chosen = false;
+  active_ = active;
 }
 
 void Bird::mousePressEvent ( QGraphicsSceneMouseEvent* event ) {
-  if(event->button() == Qt::LeftButton){
-    show = false;
-    return;
+  if(*active_){
+    if(event->button() == Qt::LeftButton){
+      show = false;
+      return;
+    }
+    chosen = true;
   }
-  chosen = true;
 }
 
 /*void mouseDoubleClickEvent( QGraphicsSceneMouseEvent* event ) {
@@ -33,7 +36,7 @@ void Bird::mousePressEvent ( QGraphicsSceneMouseEvent* event ) {
 void DBird::move(){
 }
 
-HBird::HBird(QPixmap* pic, MainWindow* big){
+HBird::HBird(QPixmap* pic, MainWindow* big,bool* active){
   pic_ = pic;
   big_ = big;
   setPixmap(*pic);
@@ -46,6 +49,7 @@ HBird::HBird(QPixmap* pic, MainWindow* big){
   type = 1;
   show = true;
   chosen = false;
+  active_ = active;
 }
 
 void HBird::move(){
@@ -56,7 +60,7 @@ void HBird::move(){
 }
   
 
-VBird::VBird(QPixmap* pic, MainWindow* big){
+VBird::VBird(QPixmap* pic, MainWindow* big,bool* active){
   pic_ = pic;
   big_ = big;
   setPixmap(*pic);
@@ -68,6 +72,7 @@ VBird::VBird(QPixmap* pic, MainWindow* big){
   type = 2;
   show = true;
   chosen = false;
+  active_ = active;
 }
 
 void VBird::move(){
@@ -77,7 +82,7 @@ void VBird::move(){
   setPos(x,y);
 }
 
-ZigBird::ZigBird(QPixmap* pic, MainWindow* big){
+ZigBird::ZigBird(QPixmap* pic, MainWindow* big,bool* active){
   pic_ = pic;
   big_ = big;
   setPixmap(*pic);
@@ -92,6 +97,7 @@ ZigBird::ZigBird(QPixmap* pic, MainWindow* big){
   hor = rand()%2;
   setPos(x,y);
   chosen = false;
+  active_ = active;
 }
 
 void ZigBird::move(){
@@ -114,19 +120,20 @@ void ZigBird::move(){
    ++zig_count;
 }
 
-LoopBird::LoopBird(QPixmap* pic, MainWindow* big){
+LoopBird::LoopBird(QPixmap* pic, MainWindow* big,bool* active){
   pic_ = pic;
   big_ = big;
   setPixmap(*pic);
   type = 4;
   show = true;
   chosen = false;
+  active_ = active;
 }
 
 void LoopBird::move(){
 }
 
-RandBird::RandBird(QPixmap* pic, MainWindow* big){
+RandBird::RandBird(QPixmap* pic, MainWindow* big,bool* active){
   pic_ = pic;
   big_ = big;
   setPixmap(*pic);
@@ -139,6 +146,7 @@ RandBird::RandBird(QPixmap* pic, MainWindow* big){
   count = 0;
   rand_time = 10+rand()%30;
   chosen = false;
+  active_ = active;
 }
 
 void RandBird::move(){

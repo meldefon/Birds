@@ -10,6 +10,19 @@
 #include <QBrush>
 //#include "bird.h"
 
+void MainWindow::pause_game(){
+  if(!level_over){
+    if(timer->isActive()){
+      timer->stop();
+      bird_active = false;
+      return;
+    }
+    timer->start();
+    bird_active = true;
+    return;
+  }
+}
+
 void MainWindow::show_level_screen(){
   if(current_level==0){
     QGraphicsTextItem* level_1 = new QGraphicsTextItem("Level 1\n\nProbably the easiest level I feather seen. \nJust click on the birds to catch them. In this case,\nthey're dead birds, so they won't move. \n\nMake sure to catch enough to meet the minimum\nlevel score before the timer runs out! \n\nThe birds will look like this");
@@ -22,7 +35,7 @@ void MainWindow::show_level_screen(){
     return;
   }
   if(current_level==1){
-    QGraphicsTextItem* level_2 = new QGraphicsTextItem("Level 2\n\nGive up now, or you'll egret it. Now there will be\nvertically moving birds. These will be worth\n30 points, rather than DeadBird's 5. Good Luck.\n\n The newest bird will look like this");
+    QGraphicsTextItem* level_2 = new QGraphicsTextItem("Level 2\n\nGive up now, or you'll egret it. Now there will be\nvertically moving birds. These will be worth\n25 points, rather than DeadBird's 5. Good Luck.\n\n The newest bird will look like this");
     scene->addItem(level_2);
     level_2->setPos(100,150);
     QGraphicsPixmapItem* example = new QGraphicsPixmapItem;
@@ -129,27 +142,27 @@ void MainWindow::addBird(){
   //std::cout<<"HERE";
   switch(next_bird_type){
     case 0:
-      next_bird = new DBird(DBird_pic,this);
+      next_bird = new DBird(DBird_pic,this,&bird_active);
       bird_list->push_back(next_bird);
       scene->addItem(next_bird);
     break;
     case 1:
-      next_bird = new VBird(VBird_pic,this);
+      next_bird = new VBird(VBird_pic,this,&bird_active);
       bird_list->push_back(next_bird);
       scene->addItem(next_bird);
       break;
     case 2:
-      next_bird = new HBird(HBird_pic,this);
+      next_bird = new HBird(HBird_pic,this,&bird_active);
       bird_list->push_back(next_bird);
       scene->addItem(next_bird);
       break;
     case 3:
-      next_bird = new ZigBird(ZigBird_pic,this);
+      next_bird = new ZigBird(ZigBird_pic,this,&bird_active);
       bird_list->push_back(next_bird);
       scene->addItem(next_bird);
       break;
     case 4:
-      next_bird = new RandBird(RandBird_pic,this);
+      next_bird = new RandBird(RandBird_pic,this,&bird_active);
       bird_list->push_back(next_bird);
       scene->addItem(next_bird);
       break;
@@ -161,7 +174,7 @@ int get_score(int type){
     return 5;
   }
   if(type ==2 ){
-    return 30;
+    return 25;
   }
   if(type==1){
     return 45;
@@ -206,6 +219,8 @@ void MainWindow::start_level(){
     current_level = level_choice-2;
     //allow_cheat = false;
     using_cheat = true;
+    score_val = 0;
+    total_score = 0;
     end_level();
     return;
   }
@@ -226,6 +241,7 @@ void MainWindow::start_level(){
   c>>level_text;
   level->setText(QString(level_text.c_str()));
   timer->start();
+  level_over = false;
   
   QPixmap* b = new QPixmap;
   b = get_back(current_level,b);
@@ -239,6 +255,7 @@ void MainWindow::start_level(){
   
 
 void MainWindow::end_level(){
+  level_over = true;
   scene->clear();
   timer->stop();
   if(score_val<level_recs[current_level] /*&& !allow_cheat*/&& !using_cheat){
@@ -370,6 +387,7 @@ void MainWindow::end_game(){
   game_over = false;
   begin_timer->start();
   start_enable = false;
+  level_over = true;
 }
 
 void MainWindow::show_front(){
@@ -447,7 +465,7 @@ MainWindow::MainWindow(){
   level_recs[5] =1200;
   level_times[0] = 30;
   level_times[1] = 35;
-  level_times[2] = 35;
+  level_times[2] = 30;
   level_times[3] = 30;
   level_times[4] = 25;
   level_times[5] = 20;
@@ -456,6 +474,8 @@ MainWindow::MainWindow(){
   power_up_used = false;
   start_enable = false;
   using_cheat = false;
+  level_over = true;
+  bird_active = true;
   
 
   //Initialize bird list
@@ -507,6 +527,7 @@ MainWindow::MainWindow(){
   //status_bar->setReadOnly(true);
   start_button = new QPushButton("Start");
   reset_button = new QPushButton("Reset");
+  pause_button = new QPushButton("Pause");
   name_bar = new QLineEdit;
   total_score_bar = new QLineEdit;
   
@@ -527,9 +548,11 @@ MainWindow::MainWindow(){
   status_panel_layout->addLayout(name_layout);
   status_panel_layout->addLayout(total_score_layout);
   status_panel_layout->addWidget(start_button);
+  status_panel_layout->addWidget(pause_button);
   status_panel_layout->addWidget(reset_button);
   connect(start_button,SIGNAL(clicked()),this,SLOT(start_level()));
   connect(reset_button,SIGNAL(clicked()),this,SLOT(end_game()));
+  connect(pause_button,SIGNAL(clicked()),this,SLOT(pause_game()));
   
   error_bar = new QLineEdit;
   error_bar->setReadOnly(true);

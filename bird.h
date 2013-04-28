@@ -24,30 +24,30 @@ class Bird : public QGraphicsPixmapItem{
     //void mouseDoubleClickEvent( QGraphicsSceneMouseEvent* event );
     bool show;
     bool chosen;
-   
+    bool* active_;
 };
 
 class DBird: public Bird{
   public:
-    DBird(QPixmap* pic, MainWindow* big);
+    DBird(QPixmap* pic, MainWindow* big,bool* active);
     void move();
 };
 
 class HBird: public Bird{
   public:
-    HBird(QPixmap* pic, MainWindow* big);
+    HBird(QPixmap* pic, MainWindow* big,bool* active);
     void move();
 };
 
 class VBird: public Bird{
   public:
-    VBird(QPixmap* pic, MainWindow* big);
+    VBird(QPixmap* pic, MainWindow* big,bool* active);
     void move();
 };
 
 class ZigBird: public Bird{
   public:
-    ZigBird(QPixmap* pic, MainWindow* big);
+    ZigBird(QPixmap* pic, MainWindow* big,bool* active);
     void move();
     int zig_count;
     int zig_speed;
@@ -56,13 +56,13 @@ class ZigBird: public Bird{
 
 class LoopBird: public Bird{
   public:
-    LoopBird(QPixmap* pic, MainWindow* big);
+    LoopBird(QPixmap* pic, MainWindow* big,bool* active);
     void move();
 };
 
 class RandBird: public Bird{
   public:
-    RandBird(QPixmap* pic, MainWindow* big);
+    RandBird(QPixmap* pic, MainWindow* big,bool* active);
     void move();
     int count;
     int rand_time;

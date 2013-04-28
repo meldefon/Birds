@@ -36,6 +36,7 @@ class MainWindow : public QWidget{
     QLineEdit* status_bar;
     QPushButton* start_button;
     QPushButton* reset_button;
+    QPushButton* pause_button;
     QLineEdit* name_bar;
     QLabel* name_label;
     QLineEdit* total_score_bar;
@@ -57,11 +58,13 @@ class MainWindow : public QWidget{
     void show_level_screen();
     bool allow_cheat;
     bool game_over;
+    bool level_over;
     bool power_up_used;
     Bird* chosen_one;
     void show_front();
     bool start_enable;
     bool using_cheat;
+    bool bird_active;
     
     void addBird();
 
@@ -77,6 +80,7 @@ class MainWindow : public QWidget{
     void end_level();
     void end_game();
     void check_begin();
+    void pause_game();
     
   
 };
