@@ -50,6 +50,8 @@ class MainWindow : public QWidget{
     int level_recs[6];
     int level_times[6];
     void show_level_screen();
+    bool allow_cheat;
+    bool game_over;
     
     void addBird();
 
