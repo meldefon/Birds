@@ -100,7 +100,7 @@ QPixmap* get_back(int current_level,QPixmap* temp){
       *temp = b->scaled(500,500);
       return temp;
      default:
-      b= new QPixmap("desert.png");
+      b= new QPixmap("forest.png");
       *temp = b->scaled(500,500);
       return temp;
       break;       
