@@ -265,6 +265,7 @@ void MainWindow::end_level(){
     game_over_message->setPos(60,0);
     current_level = 0;
     total_score = 0;
+    score_val = 0;
     game_over = true;
     return;
   }
@@ -363,7 +364,7 @@ void MainWindow::end_game(){
   total_score = 0;
   total_score_bar->setText("");
   //show_level_screen();
-  error_bar->clear();
+  error_bar->setText("To jump levels, enter 'Cheat' followed by space, and then a level number (1-6) in the name box.");
   show_front();
   allow_cheat = true;
   game_over = false;
@@ -549,7 +550,7 @@ MainWindow::MainWindow(){
   whole_layout->addLayout(status_panel_layout);
   whole_layout->addWidget(error_bar);
   main->setLayout(whole_layout);
-  main->setGeometry(0,0,650,670);
+  main->setGeometry(0,0,655,670);
   
   //Timer stuff
   tenth_seconds = 0;
@@ -563,7 +564,8 @@ MainWindow::MainWindow(){
   connect(begin_timer,SIGNAL(timeout()),this,SLOT(check_begin()));
   begin_timer->start();
   
-  show_front();
+  //show_front();
+  end_game();
   
     
 }
