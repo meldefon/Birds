@@ -1,12 +1,12 @@
 # Game - Programming Assignments Private Repository
 ### Student Information
-  + Name: Tommy Trojan
-  + USC Email: ttrojan@usc.edu
-  + USC ID: 0123456789
+  + Name: Gabriel Mel de Fontenay
+  + USC Email: meldefon@usc.edu
+  + USC ID: 8641389437
 
 ### Game Information
-  + Game Name: myAwsomeGame
-  + Game Description: One sentence game description
+  + Game Name: Birds
+  + Game Description: Use the mouse and your pet to catch birds flying in different directions. 
   + [Game Design Doc](GameDesignDoc.md)
 
 
@@ -14,7 +14,9 @@
 The grader should use the following procedure to compile and run the code:
 ```shell
 #Compile Instructions
-echo "Write command here"
+echo "qmake -project"
+echo "qmake"
+echo "make"
 #Doxygen Instructions
 echo "Write command here"
 #Command to run
