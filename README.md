@@ -24,7 +24,7 @@ $ doxygen config.txt
 ./INSERT-PARENT-FOLDER-NAME
 ```
 
-### Screenshots -- [Optional]
+### Screenshots
 ![alt text](https://github.com/usc-csci102-spring2013/game_meldefon/blob/master/interface_shot.png?raw=true "Layout")
 
 ![alt text](https://github.com/usc-csci102-spring2013/game_meldefon/blob/master/game_shot.png?raw=true "Layout")
