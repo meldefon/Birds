@@ -7,6 +7,9 @@
 3. Vertical Birds, which will be the same as horizontal birds, but will fly vertically
 4. Zig-zag Birds, which will fly in deterministic, but strait, paths
 5. Random Birds which will fly in (maybe smooth) random paths
+6. Pet, which will be selected by right clicking a bird. It will take on a new graphic, but move in the same way
+as its original type. It will help the user by catching all birds it collides with. The user will have to choose which moement
+style will make the best pet.
 
 ##How to control the Game
 Simply use the mouse to move the cursor. Try to click on birds as they move around the screen. In later levels, there will be a powerup available that will allow the user to catch a bird as a pet by right clicking it. This
@@ -17,11 +20,11 @@ Score will go up as more birds are "caught". Birds will have value according to 
 In order to survive a level, the player will need to catch enough birds in a given amount of time to meet a minimum score.
 Each level will have progressively higher standards, making it more and more difficult to keep up. Both the timer is shortened and the minimum score increases.
 The birds will have the following values:
-* Dead Birds - 5
-* Horizontal Birds - 30
-* Vertical Birds - 45
-* Zig-zag Birds - 75
-* Random Birds - 150
+* Dead Birds: 5
+* Horizontal Birds: 25
+* Vertical Birds: 45
+* Zig-zag Birds: 75
+* Random Birds: 150
 
 ##Lives
 In order to survive a level, the player must acheive a certain score each level.
