@@ -29,3 +29,6 @@ $ doxygen config.txt
 
 ![alt text](https://github.com/usc-csci102-spring2013/game_meldefon/blob/master/game_shot.png?raw=true "Layout")
 
+
+### Liscence
+See file in repo called "LISCENCE"
